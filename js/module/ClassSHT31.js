@@ -5,13 +5,12 @@
 class ClassSHT31 {
     /**
      * @constructor
-     * @param {Object} _bus   - объект класса I2C Bus
+     * @param {Object} _bus   - объект класса I2C Bus - TODO: ПОМЕНЯТЬ на пины и вызывать AddBus в конструкторе
      * @param {Hex} _address  - адрес - 0х44 или 0х45
-     * @param {string} _rep   - повторяемость (repeatability)
      */
-    constructor(_Bus, _address, _rep) {
+    constructor(_bus, _address, _rep) {
         this._name = 'ClassSHT31'; //переопределяем имя типа
-		this._sensor = require('https://raw.githubusercontent.com/AlexGlgr/ModuleMeteoSHT31/fork-Alexander/js/module/meteo-sensor.min.js').connect({i2c: _Bus, address: _address, repeatabulity: _rep});
+		this._sensor = require('https://raw.githubusercontent.com/AlexGlgr/ModuleMeteoSHT31/fork-Alexander/js/module/meteo-sensor.min.js').connect({i2c: _bus, address: _address, repeatabulity: _rep});
         this._heaterOn = false;
     }
     /**
@@ -60,6 +59,9 @@ class ClassSHT31 {
         return "Sensor reset";
     }
 
+    // TODO: Метод СТАРТ, который вызывает все остальные методы и устанавливает интервал их вызова
+    // TODO: Метод для изменения частоты опроса
+    // TODO: Метод СТОП
     /*
     meteoSensor.read(function(err, data) {
     if (err) {
