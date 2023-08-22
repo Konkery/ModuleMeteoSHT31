@@ -1,3 +1,5 @@
+const ClassMiddleSensor = require("https://raw.githubusercontent.com/Nicktonious/ModuleSensorArchitecture/main/js/module/ClassSensorArchitecture.min.js");
+
 /**
  * @class
  * Класс ClassSHT31 р
