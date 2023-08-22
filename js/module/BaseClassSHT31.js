@@ -1,5 +1,6 @@
 function SHT3C(_i2c) {
     this.i2c = _i2c;
+    console.log(this.i2c);
     this.w(0xB098); // sleep - needed after power on
   }
   
