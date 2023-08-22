@@ -2,7 +2,7 @@
  * @class
  * Класс ClassSHT31 р
  */
-class ClassSHT31 extends ClassMiddleSensor {
+class ClassSHT31 extends require('https://raw.githubusercontent.com/Nicktonious/ModuleSensorArchitecture/main/js/module/ClassSensorArchitecture.min.js') {
     /**
      * @constructor
      * @param {Object} _opts   - Объект с параметрами по нотации ClassMiddleSensor
