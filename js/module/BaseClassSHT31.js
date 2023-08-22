@@ -20,6 +20,10 @@ function SHT3C(_i2c) {
                  temp : d.getUint16(3)*175/65536 - 45 });
     }, 20);
   }
+
+  SHT3C.prototype.reset = function() {
+    this.i2c.writeTo(0x44, [0x30, 0xa2]);
+  };
   
   exports.connectI2C = function (_i2c) {
     return new SHT3C(_i2c);
