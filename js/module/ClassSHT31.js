@@ -42,7 +42,6 @@ class ClassSHT31 extends ClassMiddleSensor {
             console.log('Temperature:', d.temp);
             console.log('Humidity:', d.humidity);
           });
-          return d;
     }
 
     Start(_period, _num_channel) {
