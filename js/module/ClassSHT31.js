@@ -15,6 +15,7 @@ class ClassSHT31 extends ClassMiddleSensor {
         let Mbus = new ClassI2CBus();
         let bus = Mbus.AddBus({sda: _opts._Pins[0], scl: _opts._Pins[1], bitrate: 100000});
         console.log(bus);
+        console.log("Heyo");
 		this._sensor = require('https://raw.githubusercontent.com/AlexGlgr/ModuleMeteoSHT31/fork-Alexander/js/module/meteo-sensor.min.js').connect({i2c: bus.IDbus});
         this._minPeriod = 1000;
         this._usedChannels = [];
