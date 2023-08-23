@@ -1,5 +1,4 @@
 const ClassMiddleSensor = require("https://raw.githubusercontent.com/Nicktonious/ModuleSensorArchitecture/main/js/module/ClassSensorArchitecture.min.js");
-const ClassI2CBus = require("https://raw.githubusercontent.com/AlexGlgr/ModuleBaseI2CBus/fork-Alexander/js/module/ClassBaseI2CBus.min.js");
 /**
  * @class
  * Класс ClassSHT31 р
@@ -12,11 +11,7 @@ class ClassSHT31 extends ClassMiddleSensor {
     constructor(_opts) {
         ClassMiddleSensor.apply(this, [_opts]);
         this._name = 'ClassSHT31'; //переопределяем имя типа
-        let Mbus = new ClassI2CBus();
-        let bus = Mbus.AddBus({sda: _opts._Pins[0], scl: _opts._Pins[1], bitrate: 100000});
-        console.log(bus);
-        console.log("Heyo");
-		this._sensor = require('https://raw.githubusercontent.com/AlexGlgr/ModuleMeteoSHT31/fork-Alexander/js/module/meteo-sensor.min.js').connect({i2c: bus.IDbus});
+		this._sensor = require('https://raw.githubusercontent.com/AlexGlgr/ModuleMeteoSHT31/fork-Alexander/js/module/meteo-sensor.min.js').connect({i2c: (new ClassI2CBus).AddBus({sda: _opts._Pins[0], scl: _opts._Pins[1], bitrate: 100000}).IDbus});
         this._minPeriod = 1000;
         this._usedChannels = [];
         this._interval;
@@ -42,7 +37,7 @@ class ClassSHT31 extends ClassMiddleSensor {
     GetData() {
         this._sensor.read(function(err, d) {
             if (err) {
-                throw err;
+                console.log("Error " + err.message);
             }
             console.log('Temperature:', d.temp);
             console.log('Humidity:', d.humidity);
