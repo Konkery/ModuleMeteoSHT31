@@ -1,4 +1,5 @@
 function TroykaMeteoSensor(opts) {
+  console.log(opts);
   opts = opts || {};
   var _i2c = opts.i2c || PrimaryI2C;
   var _address = opts.address || 0x44;
@@ -26,28 +27,28 @@ function TroykaMeteoSensor(opts) {
         try {
           _i2c.writeTo(_address, [0x2c, 0x06]);
         } catch (e) {
-          callback(new Error('I2C write error'), undefined);
+          callback(new Error('I2C HIGH write error'), undefined);
         }
         break;
       case 'MEDIUM':
         try {
           _i2c.writeTo(_address, [0x2c, 0x0d]);
         } catch (e) {
-          callback(new Error('I2C write error'), undefined);
+          callback(new Error('I2C MEDIUM write error'), undefined);
         }
         break;
       case 'LOW':
         try {
           _i2c.writeTo(_address, [0x2c, 0x10]);
         } catch (e) {
-          callback(new Error('I2C write error'), undefined);
+          callback(new Error('I2C LOW write error'), undefined);
         }
         break;
       default:
         try {
           _i2c.writeTo(_address, [0x2c, 0x06]);
         } catch (e) {
-          callback(new Error('I2C write error'), undefined);
+          callback(new Error('I2C DEFAULT write error'), undefined);
         }
     }
 
@@ -67,7 +68,7 @@ function TroykaMeteoSensor(opts) {
         });
       }
     } catch (e) {
-      callback(new Error('I2C read error', undefined));
+      callback(new Error('I2C WORST read error', undefined));
     }
   };
 
