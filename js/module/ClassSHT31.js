@@ -52,7 +52,8 @@ class ClassSHT31 extends ClassMiddleSensor {
         if (!this._usedChannels.includes(_num_channel)) this._usedChannels.push(_num_channel); //номер канала попадает в список опрашиваемых каналов. Если интервал уже запущен с таким же периодои, то даже нет нужды его перезапускать 
         if (!this._interval) {          //если в данный момент не ведется ни одного опроса
             this._interval = setInterval(() => {
-            this._sensor.read(d => {
+            this._sensor.read((err,d) => {
+                if (err) comsole.log (err.message);
                 if (this._usedChannels.includes(0)) this.Ch0_Value = d.temp;
                 if (this._usedChannels.includes(1)) this.Ch1_Value = d.humidity;
             });
