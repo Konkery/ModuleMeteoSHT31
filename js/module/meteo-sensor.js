@@ -60,13 +60,9 @@ function TroykaMeteoSensor(opts) {
         callback(new Error('checksum error'), undefined);
       } else {
         var tmpC = ((data[0] * 256.0 + data[1]) * 175.0) / 65535.0 - 45.0;
-        var tmpF = (tmpC * 9.0) / 5.0 + 32.0;
-        var tmpK = tmpC + 273.15;
         var hum = ((data[3] * 256.0 + data[4]) * 100.0) / 65535.0;
         callback(null, {
-          tempC: tmpC,
-          tempF: tmpF,
-          tempK: tmpK,
+          temp: tmpC,
           humidity: hum
         });
       }

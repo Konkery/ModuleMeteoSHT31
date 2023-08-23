@@ -12,7 +12,7 @@ class ClassSHT31 extends ClassMiddleSensor {
     constructor(_opts) {
         ClassMiddleSensor.apply(this, [_opts]);
         this._name = 'ClassSHT31'; //переопределяем имя типа
-		this._sensor = require('https://raw.githubusercontent.com/AlexGlgr/ModuleMeteoSHT31/fork-Alexander/js/module/BaseClassSHT31.min.js').connectI2C(I2C1);//(new ClassI2CBus).AddBus({sda: _opts._Pins[0], scl: _opts._Pins[1], bitrate: 100000}).IDBus);
+		this._sensor = require('https://raw.githubusercontent.com/AlexGlgr/ModuleMeteoSHT31/fork-Alexander/js/module/meteo-sensor.min.js').connect((new ClassI2CBus).AddBus({sda: _opts._Pins[0], scl: _opts._Pins[1], bitrate: 100000}).IDBus);
         this._minPeriod = 1000;
         this._usedChannels = [];
         this._interval;
@@ -36,7 +36,10 @@ class ClassSHT31 extends ClassMiddleSensor {
      * @returns {Object}  - объект, поля которого содержат температуру и влажность
      */
     GetData() {
-        this._sensor.read(function(d) {
+        this._sensor.read(function(err, d) {
+            if (err) {
+                throw err;
+            }
             console.log('Temperature:', d.temp);
             console.log('Humidity:', d.humidity);
           });
