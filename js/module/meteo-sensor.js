@@ -3,7 +3,6 @@ function TroykaMeteoSensor(opts) {
   var _i2c = opts.i2c || PrimaryI2C;
   var _address = opts.address || 0x44;
   var _repeatability = opts.repeatability || 'HIGH';
-  console.log(opts);
 
   this.setRepeatability = function(value) {
     _repeatability = value;
