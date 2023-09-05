@@ -1,7 +1,9 @@
 const ClassMiddleSensor = require("https://raw.githubusercontent.com/Nicktonious/ModuleSensorArchitecture/main/js/module/ClassSensorArchitecture.min.js");
 /**
  * @class
- * Класс ClassSHT31 р
+ * Класс ClassSHT31 реализует работу датчика на базе чипа SHT31 для измерения температуры и относительной
+ * влажности воздуха. Класс наследован от ClassMiddleSensor и использует его нотацию. В качестве опций класс принимает 
+ * I2C-шину. Минимальный период опроса - 1000 милисекунд.
  */
 class ClassSHT31 extends ClassMiddleSensor {
     /**
@@ -16,6 +18,10 @@ class ClassSHT31 extends ClassMiddleSensor {
         this._usedChannels = [];
         this._interval;
     }
+    /**
+     * @method
+     * Инициализирует датчик
+     */
     Init(_sensor_props) {
         super.Init(_sensor_props);
     }
@@ -44,8 +50,13 @@ class ClassSHT31 extends ClassMiddleSensor {
           });
     }
 
+    /**
+     * @method
+     * Запускает сбор данных с датчика и передачи их в каналы
+     * @param {Number} _period          - частота опроса (минимум 1000 мс)
+     * @param {Number} _num_channel     - номер канала
+     */
     Start(_period, _num_channel) {
-        //this._interval = setInterval(() => this.GetData(), freq);
         let period = (typeof _period === 'number' & _period >= this._minPeriod) ? _period    //частота сверяется с минимальной
                  : this._minPeriod;
 
@@ -62,11 +73,21 @@ class ClassSHT31 extends ClassMiddleSensor {
         this._currentPeriod = period;
     }
 
+    /**
+     * @method
+     * Меняет частоту опроса датчика
+     * @param {Number} freq     - новая частота опроса (минимум 1000 мс)
+     */
     ChangeFrequency(freq) {
         clearInterval(this._interval);
         setTimeout(() => this.Start(freq), this._minfrequency);
     }
 
+    /**
+     * @methhod
+     * Останавливает сбор данных с датчика
+     * @param {*} _num_channel   - номер канала, в который должен быть остановлен поток данных
+     */
     Stop(_num_channel) {
         if (_num_channel) this._usedChannels.splice(this._usedChannels.indexOf(_num_channel));
         else {
