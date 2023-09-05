@@ -10,8 +10,8 @@ class ClassSHT31 extends ClassMiddleSensor {
      * @constructor
      * @param {Object} _opts   - Объект с параметрами по нотации ClassMiddleSensor
      */
-    constructor(_opts) {
-        ClassMiddleSensor.apply(this, [_opts]);
+    constructor(_opts, _sensor_props) {
+        ClassMiddleSensor.apply(this, [_opts, _sensor_props]);
         this._name = 'ClassSHT31'; //переопределяем имя типа
 		this._sensor = require('https://raw.githubusercontent.com/AlexGlgr/ModuleMeteoSHT31/fork-Alexander/js/module/meteo-sensor.min.js').connect({i2c: _opts.Bus, address: _opts._Address, repeatability: _opts._Repeatability});
         this._minPeriod = 1000;
