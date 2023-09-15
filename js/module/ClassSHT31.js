@@ -1,4 +1,5 @@
-const ClassMiddleSensor = require("https://raw.githubusercontent.com/Nicktonious/ModuleSensorArchitecture/main/js/module/ClassSensorArchitecture.min.js");
+const ClassMiddleSensor = require("ClassSensorArchitecture");
+//("https://raw.githubusercontent.com/Nicktonious/ModuleSensorArchitecture/main/js/module/ClassSensorArchitecture.min.js");
 /**
  * @class
  * Класс ClassSHT31 реализует работу датчика на базе чипа SHT31 для измерения температуры и относительной
@@ -13,7 +14,7 @@ class ClassSHT31 extends ClassMiddleSensor {
     constructor(_opts, _sensor_props) {
         ClassMiddleSensor.apply(this, [_opts, _sensor_props]);
         this._name = 'ClassSHT31'; //переопределяем имя типа
-		this._sensor = require('https://raw.githubusercontent.com/AlexGlgr/ModuleMeteoSHT31/fork-Alexander/js/module/meteo-sensor.min.js').connect({i2c: _opts.bus, address: _opts.address, repeatability: _opts.repeatability});
+		this._sensor = require("BaseClassSHT31").connect({i2c: _opts.bus, address: _opts.address, repeatability: _opts.repeatability});
         this._minPeriod = 1000;
         this._usedChannels = [];
         this._interval;
@@ -27,7 +28,7 @@ class ClassSHT31 extends ClassMiddleSensor {
     }
     /**
      * @method
-     * Сбрасывает датчик
+     * Сбрасывает датчик в изначальное состояние
      * @returns {string}  - подтверждение, что датчик сброшен
      */
     Reset() {
