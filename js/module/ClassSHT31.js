@@ -79,7 +79,7 @@ class ClassSHT31 extends ClassMiddleSensor {
      * Меняет частоту опроса датчика
      * @param {Number} freq     - новая частота опроса (минимум 1000 мс)
      */
-    ChangeFrequency(_num_channel, freq) {
+    ChangeFreq(_num_channel, freq) {
         clearInterval(this._interval);
         setTimeout(() => this.Start(freq), this._minfrequency);
     }
