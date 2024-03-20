@@ -1,20 +1,19 @@
-const ClassMiddleSensor = require("ClassSensorArchitecture");
 /**
  * @class
  * Класс ClassSHT31 реализует работу датчика на базе чипа SHT31 для измерения температуры и относительной
- * влажности воздуха. Класс наследован от ClassMiddleSensor и использует его нотацию. В качестве опций класс принимает 
+ * влажности воздуха. Класс наследован от ClassSensor и использует его нотацию. В качестве опций класс принимает 
  * I2C-шину. Минимальный период опроса - 1000 милисекунд.
  */
-class ClassSHT31 extends ClassMiddleSensor {
+class ClassSHT31 extends ClassSensor {
     /**
      * @constructor
-     * @param {Object} _opts   - Объект с параметрами по нотации ClassMiddleSensor
+     * @param {Object} _opts   - Объект с параметрами по нотации ClassSensor
      */
     constructor(_opts, _sensor_props) {
-        ClassMiddleSensor.apply(this, [_opts, _sensor_props]);
+        ClassSensor.apply(this, [_opts, _sensor_props]);
         this._Name = 'ClassSHT31'; //переопределяем имя типа
-		this._Sensor = require("BaseClassSHT31").connect({i2c: _opts.bus, address: _opts.address, repeatability: _opts.repeatability});
-        this._MinPeriod = 1000;
+		this._Sensor = require("BaseClassSHT31.min.js").connect(_opts.bus, _opts.address, _opts.repeatability);
+        this._MinPeriod = 250;
         this._UsedChannels = [];
         this._Interval;
     }
@@ -24,6 +23,7 @@ class ClassSHT31 extends ClassMiddleSensor {
      */
     Init(_sensor_props) {
         super.Init(_sensor_props);
+        this._Sensor.init();
     }
     /**
      * @method
@@ -41,12 +41,9 @@ class ClassSHT31 extends ClassMiddleSensor {
      * @returns {Object}  - объект, поля которого содержат температуру и влажность
      */
     GetData() {
-        this._Sensor.read(function(err, d) {
-            if (err) {
-                console.log("Error " + err.message);
-            }
+        this._Sensor.get(function(d) {
             console.log('Temperature:', d.temp);
-            console.log('Humidity:', d.humidity);
+            console.log('Humidity:', d.hum);
           });
     }
 
@@ -63,11 +60,10 @@ class ClassSHT31 extends ClassMiddleSensor {
         if (!this._UsedChannels.includes(_num_channel)) this._UsedChannels.push(_num_channel); //номер канала попадает в список опрашиваемых каналов. Если интервал уже запущен с таким же периодои, то даже нет нужды его перезапускать 
         if (!this._Interval) {          //если в данный момент не ведется ни одного опроса
             this._Interval = setInterval(() => {
-            this._Sensor.read((err,d) => {
-                if (err) comsole.log (err.message);
-                if (this._UsedChannels.includes(0)) this.Ch0_Value = d.temp;
-                if (this._UsedChannels.includes(1)) this.Ch1_Value = d.humidity;
-            });
+                this._Sensor.get((d) => {
+                    if (this._UsedChannels.includes(0)) this.Ch0_Value = d.temp;
+                    if (this._UsedChannels.includes(1)) this.Ch1_Value = d.hum;
+                });
             }, period);
         }     
         this._currentPeriod = period;
